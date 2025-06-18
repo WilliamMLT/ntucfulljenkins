@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/WilliamMLT/ntucfulljenkins.git' // Use your GitHub repo URL
+                git url 'https://github.com/WilliamMLT/ntucfulljenkins.git', branch: 'main'
             }
         }
         stage('Build') {
