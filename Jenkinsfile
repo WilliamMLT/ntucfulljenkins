@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    
+    tools {
+        maven 'M3' // we will configure this in Jenkins
+    }
+
     environment {
         REGISTRY = 'docker.io/yourusername' // Replace with your DockerHub or registry username
         IMAGE = 'springboot-crud'
