@@ -6,15 +6,19 @@ pipeline {
     }
 
     environment {
-        REGISTRY = 'docker.io/letianwilliamma' // Replace with your DockerHub or registry username
+        REGISTRY = 'docker.io/letianwilliamma'
         IMAGE = 'springboot-crud'
         TAG = "${env.BUILD_NUMBER}"
-        OPENSHIFT_PROJECT = 'williammaletian-dev' // Replace with your OpenShift project/namespace
+        OPENSHIFT_PROJECT = 'williammaletian-dev'
     }
     stages {
-       checkout([$class: 'GitSCM',
-              branches: [[name: '*/main']],
-              userRemoteConfigs: [[url: 'https://github.com/WilliamMLT/ntucfulljenkins.git']]])
+        stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/WilliamMLT/ntucfulljenkins.git']]
+                ])
+            }
         }
         stage('Build') {
             steps {
