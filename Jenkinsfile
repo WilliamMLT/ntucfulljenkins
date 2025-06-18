@@ -6,10 +6,10 @@ pipeline {
     }
 
     environment {
-        REGISTRY = 'docker.io/yourusername' // Replace with your DockerHub or registry username
+        REGISTRY = 'docker.io/letianwilliamma' // Replace with your DockerHub or registry username
         IMAGE = 'springboot-crud'
         TAG = "${env.BUILD_NUMBER}"
-        OPENSHIFT_PROJECT = 'your-openshift-project' // Replace with your OpenShift project/namespace
+        OPENSHIFT_PROJECT = 'williammaletian-dev' // Replace with your OpenShift project/namespace
     }
     stages {
         stage('Checkout') {
