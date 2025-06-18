@@ -12,10 +12,9 @@ pipeline {
         OPENSHIFT_PROJECT = 'williammaletian-dev' // Replace with your OpenShift project/namespace
     }
     stages {
-        stage('Checkout') {
-            steps {
-                git url 'https://github.com/WilliamMLT/ntucfulljenkins.git', branch: 'main'
-            }
+       checkout([$class: 'GitSCM',
+              branches: [[name: '*/main']],
+              userRemoteConfigs: [[url: 'https://github.com/WilliamMLT/ntucfulljenkins.git']]])
         }
         stage('Build') {
             steps {
