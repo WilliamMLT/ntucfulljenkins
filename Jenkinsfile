@@ -2,14 +2,11 @@ pipeline {
     agent any
     
     tools {
-        maven 'M3' // we will configure this in Jenkins
+        maven 'M3' // Make sure this is configured in Jenkins
     }
 
     environment {
-        REGISTRY = 'docker.io/letianwilliamma'
-        IMAGE = 'springboot-crud'
-        TAG = "${env.BUILD_NUMBER}"
-        OPENSHIFT_PROJECT = 'williammaletian-dev'
+        OPENSHIFT_PROJECT = 'williammaletian-dev' // Replace with your OpenShift project/namespace
     }
     stages {
         stage('Checkout') {
@@ -30,28 +27,13 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                sh "docker build -t $REGISTRY/$IMAGE:$TAG ."
-            }
-        }
-        stage('Push Docker Image') {
-            steps {
-                withCredentials([string(credentialsId: 'docker-hub-password', variable: 'DOCKER_PASSWORD')]) {
-                    sh """
-                        echo $DOCKER_PASSWORD | docker login -u $REGISTRY --password-stdin
-                        docker push $REGISTRY/$IMAGE:$TAG
-                    """
-                }
-            }
-        }
         stage('Deploy to OpenShift') {
             steps {
                 withCredentials([string(credentialsId: 'openshift-token', variable: 'OPENSHIFT_TOKEN')]) {
                     sh """
                         oc login --token=$OPENSHIFT_TOKEN --server=https://api.openshift.example.com:6443
                         oc project $OPENSHIFT_PROJECT
-                        oc set image deployment/$IMAGE $IMAGE=$REGISTRY/$IMAGE:$TAG --record
+                        # Add your OpenShift deployment commands here (e.g., oc apply, oc rollout, etc.)
                     """
                 }
             }
@@ -63,4 +45,3 @@ pipeline {
             }
         }
     }
-}
